@@ -265,6 +265,80 @@ namespace g3
         }
 
 
+        /// <summary>
+        /// Create new Quaterniond from Euler angles in radians.
+        /// Rotation order will be X->Y->Z.
+        /// </summary>
+        /// <param name="x">Counterclockwise rotation around X axis in radian.</param>
+        /// <param name="y">Counterclockwise rotation around X axis in radian.</param>
+        /// <param name="z">Counterclockwise rotation around X axis in radian.</param>
+        /// <returns>Quaternion from Euler angles</returns>
+        public static Quaterniond FromEuler(double x, double y, double z)
+        {
+            x *= 0.5f; y *= 0.5f; z *= 0.5f;
+
+            double c1 = Math.Cos(x); double c2 = Math.Cos(y); double c3 = Math.Cos(z);
+            double s1 = Math.Sin(x); double s2 = Math.Sin(y); double s3 = Math.Sin(z);
+
+            return new Quaterniond(
+                (s1 * c2 * c3) + (c1 * s2 * s3),
+                (c1 * s2 * c3) - (s1 * c2 * s3),
+                (c1 * c2 * s3) + (s1 * s2 * c3),
+                (c1 * c2 * c3) - (s1 * s2 * s3)
+            );
+        }
+
+        /// <summary>
+        /// Create new Quaterniond from Euler angles in radians.
+        /// Rotation order will be X->Y->Z.
+        /// </summary>
+        /// <param name="vect">Counterclockwise rotation around axis X,Y,Z in radian.</param>
+        /// <returns>Quaternion from Euler angles</returns>
+        public static Quaterniond FromEuler(Vector3d vect)
+        {
+            return FromEuler(vect.x, vect.y, vect.z);
+        }
+
+        /// <summary>
+        /// Create new Vector3d representing an Euler angles for a Quaternionf rotation.
+        /// </summary>
+        /// <returns>Vector3 representing Euler angles rotation</returns>
+        public Vector3d ToEuler()
+        {
+            const double SINGULARITY_THRESHOLD = 0.49999999995;
+
+            double sqw = w * w; double sqx = x * x; double sqy = y * y; double sqz = z * z;
+            double unit = sqx + sqy + sqz + sqw;
+            double singularity = x * z + w * y;
+
+            Vector3d r = new Vector3d();
+            if (singularity > SINGULARITY_THRESHOLD * unit) {
+                r.z = 2 * Math.Atan2(x, w);
+                r.y = MathUtil.HalfPIf;
+                r.x = 0f;
+            } else if (singularity < -SINGULARITY_THRESHOLD * unit) {
+                r.z = -2 * Math.Atan2(x, w);
+                r.y = MathUtil.HalfPIf;
+                r.x = 0f;
+            } else {
+                r.z = Math.Atan2(2 * ((w * z) - (x * y)), sqw + sqx - sqy - sqz);
+                r.y = Math.Asin(2 * singularity / unit);
+                r.x = Math.Atan2(2 * ((w * x) - (y * z)), sqw - sqx - sqy + sqz);
+            }
+            return r;
+        }
+
+        /// <summary>
+        /// Create new Vector3d representing an Euler angles for a Quaternionf rotation.
+        /// </summary>
+        /// <param name="quat">Quaternion</param>
+        /// <returns>Vector3 representing Euler angles rotation</returns>
+        public static Vector3d ToEuler(Quaterniond quat)
+        {
+            return quat.ToEuler();
+        }
+
+
         public void SetFromRotationMatrix(Matrix3d rot) {
             SetFromRotationMatrix(ref rot);
         }
