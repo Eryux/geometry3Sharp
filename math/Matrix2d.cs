@@ -222,6 +222,13 @@ namespace g3
             return new Matrix2d(a.m00 / f, a.m01 / f, a.m10 / f, a.m11 / f);
         }
 
+        public static Matrix2d operator *(Matrix2d a, Matrix2d o) {
+            return new Matrix2d(a.m00 * o.m00 + a.m01 * o.m10,
+                a.m00 * o.m01 + a.m01 * o.m11,
+                a.m10 * o.m00 + a.m11 * o.m10,
+                a.m10 * o.m01 + a.m11 * o.m11);
+        }
+
 
         // row*vector multiply
         public static Vector2d operator*(Matrix2d m, Vector2d v) {
