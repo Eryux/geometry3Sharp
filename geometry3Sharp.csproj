@@ -140,6 +140,7 @@
     <Compile Include="math\Matrix2d.cs" />
     <Compile Include="math\Matrix3d.cs" />
     <Compile Include="math\Matrix3f.cs" />
+    <Compile Include="math\Matrix4d.cs" />
     <Compile Include="math\Matrix4f.cs" />
     <Compile Include="math\MatrixUtil.cs" />
     <Compile Include="math\Plane3.cs" />

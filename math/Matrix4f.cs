@@ -333,6 +333,174 @@ namespace g3
         }
 
 
+        public void Normalize()
+        {
+            float d = Determinant;
+            Row0 /= d; Row1 /= d; Row2 /= d; Row3 /= d;
+        }
+
+        public Matrix4f Normalized()
+        {
+            Matrix4f m = this;
+            m.Normalize();
+            return m;
+        }
+
+
+        public static Matrix4f CreateTranslation(Vector3f v)
+        {
+            Matrix4f m = Identity;
+            m.Row3.x = v.x; m.Row3.y = v.y; m.Row3.z = v.z;
+            return m;
+        }
+
+        public Vector3f ExtractTranslation()
+        {
+            return new Vector3f(Row3.x, Row3.y, Row3.z);
+        }
+
+        public Matrix4f ClearTranslation()
+        {
+            Matrix4f m = this;
+            m.Row3.x = 0f; m.Row3.y = 0f; m.Row3.z = 0f;
+            return m;
+        }
+
+
+        public static Matrix4f CreateScale(float scale)
+        {
+            Matrix4f m = Identity;
+            m.Row0.x = scale; m.Row1.y = scale; m.Row2.z = scale;
+            return m;
+        }
+
+        public static Matrix4f CreateScale(Vector3f scale)
+        {
+            Matrix4f m = Identity;
+            m.Row0.x = scale.x; m.Row1.y = scale.y; m.Row2.z = scale.z;
+            return m;
+        }
+
+        public Vector3f ExtractScale()
+        {
+            Vector3f Row0xyz = new Vector3f(Row0.x, Row0.y, Row0.z);
+            Vector3f Row1xyz = new Vector3f(Row1.x, Row1.y, Row1.z);
+            Vector3f Row2xyz = new Vector3f(Row2.x, Row2.y, Row2.z);
+            return new Vector3f(Row0xyz.Length, Row1xyz.Length, Row2xyz.Length);
+        }
+
+        public Matrix4f ClearScale()
+        {
+            Matrix4f m = this;
+            Vector3f Row0xyz = new Vector3f(Row0.x, Row0.y, Row0.z).Normalized;
+            Vector3f Row1xyz = new Vector3f(Row1.x, Row1.y, Row1.z).Normalized;
+            Vector3f Row2xyz = new Vector3f(Row2.x, Row2.y, Row2.z).Normalized;
+            m.Row0 = new Vector4f(Row0xyz.x, Row0xyz.y, Row0xyz.z, Row0.w);
+            m.Row1 = new Vector4f(Row1xyz.x, Row1xyz.y, Row1xyz.z, Row0.w);
+            m.Row2 = new Vector4f(Row2xyz.x, Row2xyz.y, Row2xyz.z, Row0.w);
+            return m;
+        }
+
+
+        public static Matrix4f CreateRotationFromAxisAngle(Vector3f axis, float angle)
+        {
+            axis.Normalize();
+
+            float cos = (float)Math.Cos(-angle);
+            float sin = (float)Math.Sin(-angle);
+            float t = 1f - cos;
+
+            float txx = t * axis.x * axis.x; float txy = t * axis.x * axis.y; float txz = t * axis.x * axis.z;
+            float tyy = t * axis.y * axis.y; float tyz = t * axis.y * axis.z; float tzz = t * axis.z * axis.z;
+
+            float sinx = sin * axis.x; float siny = sin * axis.y; float sinz = sin * axis.z;
+
+            Matrix4f m = Identity;
+            m.Row0 = new Vector4f(txx + cos, txy - sinz, txz + siny, 0f);
+            m.Row1 = new Vector4f(txy + sinz, tyy + cos, tyz - sinx, 0f);
+            m.Row2 = new Vector4f(txy - siny, tyz + sinx, tzz + cos, 0f);
+            m.Row3 = new Vector4f(0f, 0f, 0f, 1f);
+            return m;
+        }
+
+        public static Matrix4f CreateRotationFromQuaternion(Quaternionf quat)
+        {
+            float angle;
+            Vector3f axis = quat.ToAxisAngle(out angle);
+            return CreateRotationFromAxisAngle(axis, angle);
+        }
+
+        public Quaternionf ExtractRotation()
+        {
+            Vector3f row0xyz = new Vector3f(Row0.x, Row0.y, Row0.z).Normalized;
+            Vector3f row1xyz = new Vector3f(Row1.x, Row1.y, Row1.z).Normalized;
+            Vector3f row2xyz = new Vector3f(Row2.x, Row2.y, Row2.z).Normalized;
+
+            Quaternionf q = new Quaternionf();
+
+            double trace = 0.25 * (row0xyz.x + row1xyz.y + row2xyz.z + 1.0);
+
+            if (trace > 0)
+            {
+                double sq = Math.Sqrt(trace);
+
+                q.w = (float)sq;
+                sq = 1.0 / (4.0 * sq);
+                q.x = (float)((row1xyz.z - row2xyz.y) * sq);
+                q.y = (float)((row2xyz.x - row0xyz.z) * sq);
+                q.z = (float)((row0xyz.y - row1xyz.x) * sq);
+            }
+            else if (row0xyz.x > row1xyz.y && row0xyz.x > row2xyz.z)
+            {
+                double sq = 2.0 * Math.Sqrt(1.0 + row0xyz.x - row1xyz.y - row2xyz.z);
+
+                q.w = (float)(0.25 * sq);
+                sq = 1.0 / sq;
+                q.x = (float)((row2xyz.y - row1xyz.z) * sq);
+                q.y = (float)((row1xyz.x - row0xyz.y) * sq);
+                q.z = (float)((row2xyz.x - row0xyz.z) * sq);
+            }
+            else if (row1xyz.y > row2xyz.z)
+            {
+                double sq = 2.0 * Math.Sqrt(1.0 + row1xyz.y - row0xyz.x - row2xyz.z);
+
+                q.w = (float)(0.25 * sq);
+                sq = 1.0 / sq;
+                q.x = (float)((row2xyz.x - row0xyz.z) * sq);
+                q.y = (float)((row1xyz.x - row0xyz.y) * sq);
+                q.z = (float)((row2xyz.y - row1xyz.z) * sq);
+            }
+            else
+            {
+                double sq = 2.0 * Math.Sqrt(1.0 + row2xyz.z - row0xyz.x - row1xyz.y);
+
+                q.w = (float)(0.25 * sq);
+                sq = 1.0 / sq;
+                q.x = (float)((row1xyz.x - row0xyz.y) * sq);
+                q.y = (float)((row2xyz.x - row0xyz.z) * sq);
+                q.z = (float)((row2xyz.y - row1xyz.z) * sq);
+            }
+
+            q.Normalize();
+            return q;
+        }
+
+        public Matrix4f ClearRotation()
+        {
+            Matrix4f m = this;
+
+            Vector3f row0xyz = new Vector3f(Row0.x, Row0.y, Row0.z);
+            Vector3f row1xyz = new Vector3f(Row1.x, Row1.y, Row1.z);
+            Vector3f row2xyz = new Vector3f(Row2.x, Row2.y, Row2.z);
+
+            m.Row0.x = row0xyz.Length; 
+            m.Row1.y = row1xyz.Length; 
+            m.Row2.z = row2xyz.Length;
+
+            return m;
+        }
+        
+
         public override string ToString()
         {
             return string.Format("[{0}] [{1}] [{2}] [{3}]", Row0, Row1, Row2, Row3);

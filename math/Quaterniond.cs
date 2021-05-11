@@ -194,6 +194,31 @@ namespace g3
         public static Quaterniond AxisAngleR(Vector3d axis, double angleRad) {
             return new Quaterniond(axis, angleRad * MathUtil.Rad2Degf);
         }
+        public Vector3d ToAxisAngle(out double angle)
+        {
+            Quaterniond quat = this;
+
+            if (Math.Abs(quat.w) > 1.0)
+            {
+                quat.Normalize();
+            }
+
+            Vector3d r;
+
+            double d = Math.Sqrt(1.0 - quat.w * quat.w);
+
+            if (d > 0)
+            {
+                r = new Vector3d(quat.x / d, quat.y / d, quat.z / d);
+            }
+            else
+            {
+                r = new Vector3d(1, 0, 0);
+            }
+
+            angle = 2 * Math.Acos(quat.w);
+            return r;
+        }
 
         // this function can take non-normalized vectors vFrom and vTo (normalizes internally)
         public void SetFromTo(Vector3d vFrom, Vector3d vTo) {
