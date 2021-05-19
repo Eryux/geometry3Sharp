@@ -4,11 +4,12 @@ using System.Collections.Generic;
 
 namespace g3
 {
-	// Interval [a,b] over Integers
+    // Interval [a,b] over Integers
     // Note that Interval1i has an enumerator, so you can directly
     //  enumerate over the range of values (inclusive!!)
     //
-	//   TODO: should check that a <= b !!
+    //   TODO: should check that a <= b !!
+    [Serializable]
     public struct Interval1i : IEnumerable<int>
     {
 		public int a;

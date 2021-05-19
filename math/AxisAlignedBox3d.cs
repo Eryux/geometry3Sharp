@@ -2,6 +2,7 @@ using System;
 
 namespace g3
 {
+    [Serializable]
     public struct AxisAlignedBox3d : IComparable<AxisAlignedBox3d>, IEquatable<AxisAlignedBox3d>
     {
         public Vector3d Min;

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace g3
 {
+    [Serializable]
     public struct Triangle2d
     {
         public Vector2d V0, V1, V2;

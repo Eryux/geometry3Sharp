@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace g3
 {
+    [Serializable]
     public struct AxisAlignedBox2d
     {
         public Vector2d Min;

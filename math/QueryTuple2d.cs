@@ -4,6 +4,7 @@ namespace g3
 {
     // variant of Wm5::Query2, for special case of 3 points. This is used in
     // IntrTriangle3Triangle3, to avoid allocating arrays
+    [Serializable]
     public class QueryTuple2d
     {
         Vector2dTuple3 mVertices;

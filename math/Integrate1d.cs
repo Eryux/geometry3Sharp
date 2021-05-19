@@ -3,6 +3,7 @@
 namespace g3
 {
     // ported from WildMagic5 Integrate1
+    [Serializable]
     public static class Integrate1d
     {
         public static double RombergIntegral(int order, double a, double b, Func<double,object,double> function, object userData)

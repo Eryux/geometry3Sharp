@@ -14,6 +14,7 @@ namespace g3
     /// Use the Append() functions to add different transform types, and the TransformX()
     /// to apply the sequence
     /// </summary>
+    [Serializable]
     public class TransformSequence
     {
         enum XFormType
@@ -27,6 +28,7 @@ namespace g3
             FromFrame = 6
         }
 
+        [Serializable]
         struct XForm
         {
             public XFormType type;

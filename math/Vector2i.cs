@@ -2,6 +2,7 @@
 
 namespace g3
 {
+    [Serializable]
     public struct Vector2i : IComparable<Vector2i>, IEquatable<Vector2i>
     {
         public int x;

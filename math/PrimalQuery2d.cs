@@ -8,6 +8,7 @@ namespace g3
 
     // Queries about the relation of a point to various geometric objects.  
     // Ported from https://www.geometrictools.com/GTEngine/Include/Mathematics/GtePrimalQuery2.h
+    [Serializable]
     class PrimalQuery2d
     {
         Func<int, Vector2d> PointF;

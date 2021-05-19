@@ -12,6 +12,7 @@ namespace g3
     /// Note that input Vector2d values are directly cast to int64 - you must
     /// scale them to suitable coordinates yourself!
     /// </summary>
+    [Serializable]
     public class Query2Int64 : Query2d
     {
 

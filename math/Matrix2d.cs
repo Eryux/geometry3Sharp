@@ -3,6 +3,7 @@
 namespace g3
 {
     // some functions ported from WildMagic5 Matrix2
+    [Serializable]
     public class Matrix2d
     {
         public double m00, m01, m10, m11;

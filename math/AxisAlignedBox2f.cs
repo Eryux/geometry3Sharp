@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace g3
 {
+    [Serializable]
     public struct AxisAlignedBox2f
     {
         public Vector2f Min;

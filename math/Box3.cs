@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace g3 {
 
-	// partially based on WildMagic5 Box3
-	public struct Box3d
+    // partially based on WildMagic5 Box3
+    [Serializable]
+    public struct Box3d
 	{
 		// A box has center C, axis directions U[0], U[1], and U[2] (mutually
 		// perpendicular unit-length vectors), and extents e[0], e[1], and e[2]
@@ -443,8 +444,9 @@ namespace g3 {
 
 
 
-	// partially based on WildMagic5 Box3
-	public struct Box3f
+    // partially based on WildMagic5 Box3
+    [Serializable]
+    public struct Box3f
 	{
 		// A box has center C, axis directions U[0], U[1], and U[2] (mutually
 		// perpendicular unit-length vectors), and extents e[0], e[1], and e[2]

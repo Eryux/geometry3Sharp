@@ -3,6 +3,7 @@
 namespace g3 {
 
 	// partially based on WildMagic5 Box2
+	[Serializable]
 	public struct Box2d
 	{
 		// A box has center C, axis directions U[0] and U[1] (perpendicular and
@@ -313,6 +314,7 @@ namespace g3 {
 
 
 	// partially based on WildMagic5 Box3
+	[Serializable]
 	public struct Box2f
 	{
 		// A box has center C, axis directions U[0] and U[1] (perpendicular and

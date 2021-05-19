@@ -5,6 +5,7 @@ using System.Text;
 
 namespace g3
 {
+    [Serializable]
     public struct Vector2d : IComparable<Vector2d>, IEquatable<Vector2d>
     {
         public double x;

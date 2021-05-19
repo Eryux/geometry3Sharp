@@ -2,7 +2,7 @@
 
 namespace g3
 {
-
+    [Serializable]
     public struct Index3i : IComparable<Index3i>, IEquatable<Index3i>
     {
         public int a;
@@ -162,7 +162,7 @@ namespace g3
 
 
 
-
+    [Serializable]
     public struct Index2i : IComparable<Index2i>, IEquatable<Index2i>
     {
         public int a;
@@ -308,7 +308,7 @@ namespace g3
 
 
 
-
+    [Serializable]
     public struct Index4i
     {
         public int a;

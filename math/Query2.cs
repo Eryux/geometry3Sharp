@@ -33,7 +33,7 @@ namespace g3
 
 
 
-
+    [Serializable]
     public class Query2d : QueryBase, Query2
     {
         protected IList<Vector2d> mVertices;

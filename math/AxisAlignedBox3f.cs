@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace g3
 {
+    [Serializable]
     public struct AxisAlignedBox3f : IComparable<AxisAlignedBox3f>, IEquatable<AxisAlignedBox3f>
     {
         public Vector3f Min;

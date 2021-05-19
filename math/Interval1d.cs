@@ -2,8 +2,9 @@ using System;
 
 namespace g3
 {
-	// interval [a,b] on Real line. 
-	//   TODO: should check that a <= b !!
+    // interval [a,b] on Real line. 
+    //   TODO: should check that a <= b !!
+    [Serializable]
     public struct Interval1d
     {
 		public double a;

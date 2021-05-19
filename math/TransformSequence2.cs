@@ -23,6 +23,7 @@ namespace g3
     /// Use the Append() functions to add different transform types, and the TransformX()
     /// to apply the sequence
     /// </summary>
+    [Serializable]
     public class TransformSequence2 : ITransform2
     {
         enum XFormType

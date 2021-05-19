@@ -5,6 +5,7 @@ using System.Text;
 
 namespace g3
 {
+    [Serializable]
     public struct Line3d
     {
         public Vector3d Origin;

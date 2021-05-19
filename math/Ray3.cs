@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace g3
 {
+    [Serializable]
     public struct Ray3d
     {
         public Vector3d Origin;

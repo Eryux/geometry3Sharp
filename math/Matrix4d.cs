@@ -2,6 +2,7 @@
 
 namespace g3
 {
+    [Serializable]
     public struct Matrix4d
     {
         public Vector4d Row0;

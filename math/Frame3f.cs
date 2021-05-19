@@ -6,6 +6,7 @@ using g3;
 
 namespace g3
 {
+    [Serializable]
     public struct Frame3f
     {
         Quaternionf rotation;

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace g3
 {
+    [Serializable]
     public struct Matrix3f
     {
         public Vector3f Row0;
